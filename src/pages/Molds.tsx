@@ -105,55 +105,59 @@ export default function Molds() {
   ];
 
   return (
-    <Card>
-      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-        <Space wrap>
-          <Input
-            placeholder="搜索编号/名称"
-            prefix={<SearchOutlined />}
-            value={params.keyword}
-            onChange={e => setParams(p => ({ ...p, keyword: e.target.value }))}
-            style={{ width: 200 }}
-            allowClear
-          />
-          <Select
-            placeholder="状态"
-            value={params.status || undefined}
-            onChange={v => setParams(p => ({ ...p, status: v || '' }))}
-            options={statusOptions}
-            style={{ width: 120 }}
-            allowClear
-          />
-          <Select
-            placeholder="类型"
-            value={params.category || undefined}
-            onChange={v => setParams(p => ({ ...p, category: v || '' }))}
-            options={categoryOptions}
-            style={{ width: 120 }}
-            allowClear
-          />
-        </Space>
-        <Space>
-          <Button icon={<ReloadOutlined />} onClick={fetchData}>刷新</Button>
-          <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>新增模具</Button>
-        </Space>
-      </div>
+    <div className="fade-in">
+      <Card className="page-card search-bar">
+        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+          <Space wrap>
+            <Input
+              placeholder="搜索编号/名称"
+              prefix={<SearchOutlined />}
+              value={params.keyword}
+              onChange={e => setParams(p => ({ ...p, keyword: e.target.value }))}
+              style={{ width: 200 }}
+              allowClear
+            />
+            <Select
+              placeholder="状态"
+              value={params.status || undefined}
+              onChange={v => setParams(p => ({ ...p, status: v || '' }))}
+              options={statusOptions}
+              style={{ width: 120 }}
+              allowClear
+            />
+            <Select
+              placeholder="类型"
+              value={params.category || undefined}
+              onChange={v => setParams(p => ({ ...p, category: v || '' }))}
+              options={categoryOptions}
+              style={{ width: 120 }}
+              allowClear
+            />
+          </Space>
+          <Space>
+            <Button icon={<ReloadOutlined />} onClick={fetchData}>刷新</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>新增模具</Button>
+          </Space>
+        </div>
+      </Card>
 
-      <Table
-        dataSource={data}
-        columns={columns}
-        rowKey="id"
-        loading={loading}
-        scroll={{ x: 1200 }}
-        pagination={{
-          current: params.page,
-          pageSize: params.pageSize,
-          total,
-          showSizeChanger: true,
-          showTotal: t => `共 ${t} 条`,
-          onChange: (page, pageSize) => setParams(p => ({ ...p, page, pageSize })),
-        }}
-      />
+      <Card className="page-card">
+        <Table
+          dataSource={data}
+          columns={columns}
+          rowKey="id"
+          loading={loading}
+          scroll={{ x: 1200 }}
+          pagination={{
+            current: params.page,
+            pageSize: params.pageSize,
+            total,
+            showSizeChanger: true,
+            showTotal: t => `共 ${t} 条`,
+            onChange: (page, pageSize) => setParams(p => ({ ...p, page, pageSize })),
+          }}
+        />
+      </Card>
 
       <Modal
         title={editing ? '编辑模具' : '新增模具'}
@@ -205,6 +209,6 @@ export default function Molds() {
           </Form.Item>
         </Form>
       </Modal>
-    </Card>
+    </div>
   );
 }

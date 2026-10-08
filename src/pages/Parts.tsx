@@ -87,8 +87,8 @@ export default function Parts() {
   ];
 
   return (
-    <Card>
-      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+    <div className="fade-in">
+      <div className="search-bar" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
         <Space wrap>
           <Input placeholder="搜索编号/名称" value={params.keyword} onChange={e => setParams(p => ({ ...p, keyword: e.target.value }))} style={{ width: 200 }} allowClear />
           <Select placeholder="分类" value={params.category || undefined} onChange={v => setParams(p => ({ ...p, category: v || '' }))} options={categoryOptions} style={{ width: 120 }} allowClear />
@@ -102,6 +102,7 @@ export default function Parts() {
         </Space>
       </div>
 
+      <Card className="page-card">
       <Table
         dataSource={data}
         columns={columns}
@@ -114,6 +115,7 @@ export default function Parts() {
           onChange: (page, pageSize) => setParams(p => ({ ...p, page, pageSize })),
         }}
       />
+      </Card>
 
       <Modal
         title={editing ? '编辑备件' : '新增备件'}
@@ -159,6 +161,6 @@ export default function Parts() {
           </Form.Item>
         </Form>
       </Modal>
-    </Card>
+    </div>
   );
 }

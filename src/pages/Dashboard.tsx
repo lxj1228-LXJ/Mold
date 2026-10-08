@@ -28,8 +28,15 @@ export default function Dashboard() {
   const errorAlerts = alerts.filter(a => a.level === 'error');
   const warnAlerts = alerts.filter(a => a.level === 'warning');
 
+  const statCards = [
+    { title: '模具总数', value: stats.totalMolds, suffix: '套', icon: <ToolOutlined />, className: 'stat-card-blue' },
+    { title: '使用中', value: stats.inUseMolds, suffix: '套', icon: <SettingOutlined />, className: 'stat-card-green' },
+    { title: '待处理维修', value: stats.pendingRepairs, suffix: '项', icon: <AppstoreOutlined />, className: 'stat-card-orange' },
+    { title: '库存预警', value: stats.lowStockParts, suffix: '项', icon: <WarningOutlined />, className: 'stat-card-red' },
+  ];
+
   return (
-    <div>
+    <div className="fade-in">
       {(errorAlerts.length > 0 || warnAlerts.length > 0) && (
         <div style={{ marginBottom: 16 }}>
           {errorAlerts.length > 0 && (
@@ -37,6 +44,7 @@ export default function Dashboard() {
               type="error"
               showIcon
               message={`有 ${errorAlerts.length} 项紧急预警需要处理`}
+              className="alert-banner"
               style={{ marginBottom: 8 }}
             />
           )}
@@ -45,52 +53,49 @@ export default function Dashboard() {
               type="warning"
               showIcon
               message={`有 ${warnAlerts.length} 项预警提醒`}
+              className="alert-banner"
             />
           )}
         </div>
       )}
 
       <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic title="模具总数" value={stats.totalMolds} prefix={<ToolOutlined />} suffix="套" />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic title="使用中" value={stats.inUseMolds} prefix={<SettingOutlined />} suffix="套" valueStyle={{ color: '#1677ff' }} />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic title="待处理维修" value={stats.pendingRepairs} prefix={<AppstoreOutlined />} suffix="项" valueStyle={{ color: '#faad14' }} />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic title="库存预警" value={stats.lowStockParts} prefix={<WarningOutlined />} suffix="项" valueStyle={{ color: stats.lowStockParts > 0 ? '#ff4d4f' : '#52c41a' }} />
-          </Card>
-        </Col>
+        {statCards.map((card, i) => (
+          <Col xs={24} sm={12} lg={6} key={i}>
+            <Card className={`stat-card ${card.className}`}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <div className="stat-icon" style={{ background: 'rgba(255,255,255,0.2)' }}>
+                  {card.icon}
+                </div>
+                <Statistic
+                  title={card.title}
+                  value={card.value}
+                  suffix={card.suffix}
+                />
+              </div>
+            </Card>
+          </Col>
+        ))}
       </Row>
 
       <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
         <Col xs={24} sm={12} lg={6}>
-          <Card size="small">
-            <Statistic title="在用模具" value={stats.inUseMolds} valueStyle={{ color: '#1677ff' }} />
+          <Card size="small" className="page-card">
+            <Statistic title="在用模具" value={stats.inUseMolds} valueStyle={{ color: '#4f6ef7' }} />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card size="small">
+          <Card size="small" className="page-card">
             <Statistic title="保养中" value={stats.maintenanceMolds} valueStyle={{ color: '#faad14' }} />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card size="small">
+          <Card size="small" className="page-card">
             <Statistic title="维修中" value={stats.repairMolds} valueStyle={{ color: '#ff4d4f' }} />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card size="small">
+          <Card size="small" className="page-card">
             <Statistic title="备件总数" value={stats.totalParts} prefix={<DatabaseOutlined />} suffix="种" />
           </Card>
         </Col>
@@ -98,7 +103,7 @@ export default function Dashboard() {
 
       <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
         <Col xs={24} sm={12}>
-          <Card title="模具状态分布" size="small">
+          <Card title="模具状态分布" size="small" className="page-card">
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               {(stats.statusDist as any[]).map(s => {
                 const info = MOLD_STATUS_MAP[s.status] || { label: s.status, color: 'default' };
@@ -113,7 +118,7 @@ export default function Dashboard() {
           </Card>
         </Col>
         <Col xs={24} sm={12}>
-          <Card title="费用统计" size="small">
+          <Card title="费用统计" size="small" className="page-card">
             <Row gutter={16}>
               <Col span={12}>
                 <Statistic title="维修总费用" value={stats.totalRepairCost} precision={2} prefix={<DollarOutlined />} suffix="元" />
@@ -128,7 +133,7 @@ export default function Dashboard() {
 
       <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
         <Col xs={24} lg={12}>
-          <Card title="最近维修记录" size="small">
+          <Card title="最近维修记录" size="small" className="page-card">
             <Table
               dataSource={stats.recentRepairs}
               rowKey="id"
@@ -144,7 +149,7 @@ export default function Dashboard() {
           </Card>
         </Col>
         <Col xs={24} lg={12}>
-          <Card title="最近保养记录" size="small">
+          <Card title="最近保养记录" size="small" className="page-card">
             <Table
               dataSource={stats.recentMaintenance}
               rowKey="id"

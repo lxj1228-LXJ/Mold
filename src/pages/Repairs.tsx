@@ -98,8 +98,8 @@ export default function Repairs() {
   const moldOptions = molds.map(m => ({ value: m.id, label: `${m.code} - ${m.name}` }));
 
   return (
-    <Card>
-      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+    <div className="fade-in">
+      <div className="search-bar" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
         <Space wrap>
           <Input placeholder="搜索模具/故障" value={params.keyword} onChange={e => setParams(p => ({ ...p, keyword: e.target.value }))} style={{ width: 200 }} allowClear />
           <Select placeholder="状态" value={params.status || undefined} onChange={v => setParams(p => ({ ...p, status: v || '' }))} options={statusOptions} style={{ width: 120 }} allowClear />
@@ -111,6 +111,7 @@ export default function Repairs() {
         </Space>
       </div>
 
+      <Card className="page-card">
       <Table
         dataSource={data}
         columns={columns}
@@ -123,6 +124,7 @@ export default function Repairs() {
           onChange: (page, pageSize) => setParams(p => ({ ...p, page, pageSize })),
         }}
       />
+      </Card>
 
       <Modal
         title={editing ? '编辑维修记录' : '新增报修'}
@@ -215,6 +217,6 @@ export default function Repairs() {
           </div>
         )}
       </Modal>
-    </Card>
+    </div>
   );
 }

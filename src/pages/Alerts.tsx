@@ -103,26 +103,26 @@ export default function Alerts() {
   ];
 
   return (
-    <div>
+    <div className="fade-in">
       {(totalErrors > 0 || totalWarnings > 0) && (
         <div style={{ marginBottom: 16 }}>
           {totalErrors > 0 && (
-            <Alert type="error" showIcon message={`${totalErrors} 项紧急预警`} description="存在逾期未处理的保养或库存缺货，请立即处理。" style={{ marginBottom: 8 }} />
+            <Alert type="error" showIcon message={`${totalErrors} 项紧急预警`} description="存在逾期未处理的保养或库存缺货，请立即处理。" style={{ marginBottom: 8, borderRadius: 12 }} />
           )}
           {totalWarnings > 0 && (
-            <Alert type="warning" showIcon message={`${totalWarnings} 项预警提醒`} description="存在即将到期的保养计划或库存不足，请关注。" />
+            <Alert type="warning" showIcon message={`${totalWarnings} 项预警提醒`} description="存在即将到期的保养计划或库存不足，请关注。" style={{ borderRadius: 12 }} />
           )}
         </div>
       )}
 
       {alerts.length === 0 && (
-        <Card>
+        <Card className="page-card">
           <Empty description="暂无预警信息，一切正常！" />
         </Card>
       )}
 
       {alerts.length > 0 && (
-        <Card>
+        <Card className="page-card">
           <Tabs
             defaultActiveKey="overdue"
             items={[

@@ -138,64 +138,66 @@ export default function Maintenance() {
   const moldOptions = molds.map(m => ({ value: m.id, label: `${m.code} - ${m.name}` }));
 
   return (
-    <Card>
-      <Tabs
-        defaultActiveKey="plans"
-        items={[
-          {
-            key: 'plans',
-            label: '保养计划',
-            children: (
-              <>
-                <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-                  <Space>
-                    <Button icon={<ReloadOutlined />} onClick={fetchPlans}>刷新</Button>
-                    <Button type="primary" icon={<PlusOutlined />} onClick={handleAddPlan}>新增计划</Button>
-                  </Space>
-                </div>
-                <Table
-                  dataSource={plans}
-                  columns={planColumns}
-                  rowKey="id"
-                  loading={planLoading}
-                  scroll={{ x: 1100 }}
-                  pagination={{
-                    current: planParams.page, pageSize: planParams.pageSize, total: planTotal,
-                    showTotal: t => `共 ${t} 条`,
-                    onChange: (page, pageSize) => setPlanParams(p => ({ ...p, page, pageSize })),
-                  }}
-                />
-              </>
-            ),
-          },
-          {
-            key: 'records',
-            label: '保养记录',
-            children: (
-              <>
-                <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
-                  <Space>
-                    <Button icon={<ReloadOutlined />} onClick={fetchRecords}>刷新</Button>
-                    <Button type="primary" icon={<PlusOutlined />} onClick={() => { recordForm.resetFields(); setRecordModal(true); }}>新增记录</Button>
-                  </Space>
-                </div>
-                <Table
-                  dataSource={records}
-                  columns={recordColumns}
-                  rowKey="id"
-                  loading={recordLoading}
-                  scroll={{ x: 1000 }}
-                  pagination={{
-                    current: recordParams.page, pageSize: recordParams.pageSize, total: recordTotal,
-                    showTotal: t => `共 ${t} 条`,
-                    onChange: (page, pageSize) => setRecordParams(p => ({ ...p, page, pageSize })),
-                  }}
-                />
-              </>
-            ),
-          },
-        ]}
-      />
+    <div className="fade-in">
+      <Card className="page-card">
+        <Tabs
+          defaultActiveKey="plans"
+          items={[
+            {
+              key: 'plans',
+              label: '保养计划',
+              children: (
+                <>
+                  <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
+                    <Space>
+                      <Button icon={<ReloadOutlined />} onClick={fetchPlans}>刷新</Button>
+                      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddPlan}>新增计划</Button>
+                    </Space>
+                  </div>
+                  <Table
+                    dataSource={plans}
+                    columns={planColumns}
+                    rowKey="id"
+                    loading={planLoading}
+                    scroll={{ x: 1100 }}
+                    pagination={{
+                      current: planParams.page, pageSize: planParams.pageSize, total: planTotal,
+                      showTotal: t => `共 ${t} 条`,
+                      onChange: (page, pageSize) => setPlanParams(p => ({ ...p, page, pageSize })),
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              key: 'records',
+              label: '保养记录',
+              children: (
+                <>
+                  <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'flex-end' }}>
+                    <Space>
+                      <Button icon={<ReloadOutlined />} onClick={fetchRecords}>刷新</Button>
+                      <Button type="primary" icon={<PlusOutlined />} onClick={() => { recordForm.resetFields(); setRecordModal(true); }}>新增记录</Button>
+                    </Space>
+                  </div>
+                  <Table
+                    dataSource={records}
+                    columns={recordColumns}
+                    rowKey="id"
+                    loading={recordLoading}
+                    scroll={{ x: 1000 }}
+                    pagination={{
+                      current: recordParams.page, pageSize: recordParams.pageSize, total: recordTotal,
+                      showTotal: t => `共 ${t} 条`,
+                      onChange: (page, pageSize) => setRecordParams(p => ({ ...p, page, pageSize })),
+                    }}
+                  />
+                </>
+              ),
+            },
+          ]}
+        />
+      </Card>
 
       <Modal
         title={editingPlan ? '编辑保养计划' : '新增保养计划'}
@@ -271,6 +273,6 @@ export default function Maintenance() {
           </Form.Item>
         </Form>
       </Modal>
-    </Card>
+    </div>
   );
 }
