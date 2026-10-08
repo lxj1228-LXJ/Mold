@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dataDir = process.env.VERCEL ? '/tmp' : path.join(__dirname, '..', 'data');
+const dataDir = process.env.VERCEL || process.env.RENDER ? '/tmp' : path.join(__dirname, '..', 'data');
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 const db = new Database(path.join(dataDir, 'mold.db'));
